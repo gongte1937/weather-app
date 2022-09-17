@@ -1,11 +1,11 @@
 import OpenWeatherMap from "../../../libs/OpenWeatherMap";
 
-
-const getForecast = (city,units) => OpenWeatherMap.get('./forecast',{
+const getWeatherByCity = (city,units) => OpenWeatherMap.get('./weather',{
     params:{
         q:city,
         units:  units,
+
     }
 })
 
-export default getForecast
+export default getWeatherByCity

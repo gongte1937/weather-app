@@ -1,11 +1,11 @@
 import React from "react";
-import styled from "styled-components";
+
 
 const Temperature = ({ children }) => {
     
     return(
         <span>
-            <span>{children}</span>
+            <span>{Math.round(children)}</span>
             <span>°</span>
         </span>
     )

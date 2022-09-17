@@ -1,49 +1,53 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import getForecast from "../../api/getWeather/getForecast";
 import DailyWeather from "./DailyWeather";
-
-
-
+import { getDay } from "date-fns";
 
 const Layout = styled.div`
-    background-color: white;
-    padding: 25px 50px;
-    width: 100vh;
-    margin-top: 1rem;
-    display: flex;
-`
+  padding: 25px 50px;
+  margin-top: 1rem;
+  display: flex;
+  border-top: 3px solid white;
+  color: white;
+`;
 
-const Forecast = ({city}) =>{
+const Forecast = ({ city,units }) => {
+  const [data, setData] = useState();
+  const [Loading, setLoading] = useState(true);
+  const Days = ["SUN", "MON", "TUS", "WED", "THU", "Fri", "SAT"];
 
-    const [data,setData] = useState()
-    const [Loading, setLoading] = useState(true)
+  useEffect(() => {
+    getForecast(city,units)
+      .then((res) => {
+        setData(res);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, [city,units]);
 
-    useEffect(()=>{
-        getForecast(city).then((res)=>{
-            setData(res)
-            setLoading(false)
-        })
-
-
-    },[city])
-
-    if(Loading){
-        return(
-            <div>Loading...</div>
-        )
-    }
-    console.log("forecast",data.data.list.filter(({dt_txt})=> dt_txt.endsWith('00:00:00')))
-
-    return(
-        <Layout>
-            <DailyWeather />
-            <DailyWeather />
-            <DailyWeather />
-            <DailyWeather />
-            <DailyWeather />
-        </Layout>
-    )
-}
+  if (Loading) {
+    return <div>Loading...</div>;
+  }
+  const forcast = data.data.list.filter(({ dt_txt }) =>
+    dt_txt.endsWith("00:00:00")
+  );
+  // console.log("forecast", forcast);
+  return (
+    <Layout>
+      {forcast.map(({ dt, main: { temp }, weather }) => {
+        // use getDay method from date-fns to calculate the day
+        return (
+          <DailyWeather
+            key={dt}
+            day={Days[getDay(dt * 1000)]}
+            temperature={temp}
+            weather={weather}
+          />
+        );
+      })}
+    </Layout>
+  );
+};
 
 export default Forecast;

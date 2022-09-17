@@ -5,19 +5,20 @@ const Container = styled.div`
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 500;
 `;
 const Divider = styled.div`
   width: 2px;
-  background-color: rgb(255 255 255 /70%); ;
+  background-color: rgb(255 255 255 /80%); ;
 `;
 
-const Metas = ({wind, humidity}) => (
+const Metas = ({ wind, humidity, units }) => (
   <Container>
-    <Meta title="Humidity" value= {`${humidity}%`} />
-    <Divider/>
-    <Meta title="Wind" value={`${wind} K/M`} />
+    <Meta title="Humidity" value={`${humidity}%`} />
+    <Divider />
+    {units === "metric" && <Meta title="Wind" value={`${wind} m/s`} />}
+    {units === "imperial" && <Meta title="Wind" value={`${wind} mi/h`} />}
   </Container>
 );
 

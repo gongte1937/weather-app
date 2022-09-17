@@ -4,7 +4,7 @@ import CurrentCity from "./CurrentCity";
 import Forecast from "./Forecast";
 import getWeatherByCity from "../api/getWeather/getWeatherByCity";
 import getWeatherByCoord from "../api/getWeather/getWeatherByCoord";
-import { Switch } from '@mui/material';
+import { Switch } from "@mui/material";
 
 const Container = styled.div`
   background-image: url(https://img.freepik.com/premium-photo/fluffy-white-cloud-blue-sky_1122-11004.jpg?w=740);
@@ -20,7 +20,7 @@ const SearchBarContainer = styled.div`
   display: flex;
   justify-content: space-around;
 
-  >div{
+  > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,19 +29,16 @@ const SearchBarContainer = styled.div`
   }
 `;
 
-const UnitsSwitch = styled.div`
-
-
-`
+const UnitsSwitch = styled.div``;
 const SearchBar = styled.div`
-position: relative;
-`
+  position: relative;
+`;
 const SearchIcon = styled.button`
   position: absolute;
   right: 80px;
   padding: 10px 10px;
   color: rgb(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.0);
+  background: rgba(255, 255, 255, 0);
   border: none;
   /* border-radius: 6px; */
   outline: none;
@@ -75,76 +72,75 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
 
-  const switchHandler =(e)=>{
-    e.target.checked? setUnits("imperial") :setUnits("metric")
-  }
 
-
-  // fetch current location weather data
+  // initialization : fetch current location city name
   useEffect(() => {
     //use geolocation method to get current location coord
     navigator.geolocation.getCurrentPosition((position) => {
       setCurrentLatitude(position.coords.latitude);
       setCurrentLongitude(position.coords.longitude);
     });
-    getWeatherByCoord(currentLatitude, currentLongitude,units)
+    getWeatherByCoord(currentLatitude, currentLongitude, units)
       .then((res) => {
-        // store the response data
-        setData(res.data);
-        // console.log("data",data.name)
-        // setCity(data.name)
+        // only store the city name
+        setCity(res.data.name);
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [currentLongitude, currentLatitude,units]);
+  }, [currentLatitude, currentLongitude]);
+
+  //  fetch the weather data by city name
+  useEffect(() => {
+    getWeatherByCity(city, units)
+      .then((res) => {
+        // store the response data
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, [city, units]);
 
   // if data has not been fetched then display loading...
   if (loading) {
     return <div>loading...</div>;
   }
+
+  // swich the units between imperial and metric
+  const switchHandler = (e) => {
+    e.target.checked ? setUnits("imperial") : setUnits("metric");
+  };
+
   // when press enter in searchbox then get the weather data
   const searchLocation = (e) => {
     if (e.key === "Enter") {
       setCity(location);
-      getWeatherByCity(city,units)
-        .then((res) => {
-          // store the response data
-          setData(res.data);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
     }
   };
+  // put the searchBar value to the location state
   const searchHandler = (e) => {
     setLocation(e.target.value);
   };
-
-
 
   return (
     <Container>
       <SearchBarContainer>
         <UnitsSwitch>
-        <div>Metric / Imperial</div>
-        <Switch
-          color="default"
-          onChange={switchHandler}
-        />
+          <div>Metric / Imperial</div>
+          <Switch color="default" onChange={switchHandler} />
         </UnitsSwitch>
 
         <SearchBar>
-        <SearchIcon className="fas fa-search" />
-        <SearchInput
-          type="text"
-          placeholder="Enter a city"
-          onKeyPress={searchLocation}
-          onChange={searchHandler}
-        />
+          <SearchIcon className="fas fa-search" />
+          <SearchInput
+            type="text"
+            placeholder="Enter a city"
+            onKeyPress={searchLocation}
+            onChange={searchHandler}
+          />
         </SearchBar>
-
       </SearchBarContainer>
 
-      <CurrentCity data={data} city={city} setCity={setCity} units={units} />
+      <CurrentCity data={data}  units={units} />
       <Forecast city={city} units={units} />
     </Container>
   );

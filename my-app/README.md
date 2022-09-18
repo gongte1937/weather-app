@@ -5,6 +5,7 @@ A responsive weather app that could show weekly temperature, switch between Impe
 ## Build
 You can run following command to build the app
 
+go to my-app directiory
 ```
 cd my-app
 ```

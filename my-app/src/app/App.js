@@ -6,6 +6,8 @@ import getWeatherByCity from "../api/getWeather/getWeatherByCity";
 import getWeatherByCoord from "../api/getWeather/getWeatherByCoord";
 import { Switch } from "@mui/material";
 
+const screenWidth = "1024px";
+
 const Container = styled.div`
   background-image: url(https://img.freepik.com/premium-photo/fluffy-white-cloud-blue-sky_1122-11004.jpg?w=740);
   height: 100vh;
@@ -14,11 +16,20 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  overflow-y: auto;
 `;
 const SearchBarContainer = styled.div`
   width: 100vh;
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  @media screen and (max-width: ${screenWidth}) {
+    flex-direction: column;
+    flex-direction: column-reverse;
+    margin-top: 50px;
+  }
 
   > div {
     display: flex;
@@ -29,49 +40,62 @@ const SearchBarContainer = styled.div`
   }
 `;
 
-const UnitsSwitch = styled.div``;
-const SearchBar = styled.div`
-  position: relative;
+const UnitsSwitch = styled.div`
+  margin-left: 190px;
+  @media screen and (max-width: ${screenWidth}) {
+    margin-top: 20px;
+    margin-left: 0px;
+  }
 `;
-const SearchIcon = styled.button`
-  position: absolute;
-  right: 80px;
-  padding: 10px 10px;
-  color: rgb(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0);
-  border: none;
-  /* border-radius: 6px; */
-  outline: none;
-`;
-const SearchInput = styled.input`
-  /* width: 100%; */
-  /* margin-left: 50px; */
-  padding: 0px 50px;
-  position: absolute;
-  right: -150px;
-  font-size: 1rem;
+const SearchBarBox = styled.div`
+  display: flex;
+  justify-content: flex-start;
   color: rgb(255 255 255 /40%);
   min-height: 40px;
   border: none;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.2);
+  @media screen and (max-width: ${screenWidth}) {
+    width: 40%;
+
+  }
+`;
+const SearchIcon = styled.button`
+  padding: 10px 10px;
+  color: rgb(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0);
+  border: none;
+  outline: none;
+`;
+const SearchInput = styled.input`
+  /* width: 100%; */
+  /* margin-left: 50px; */
+  padding-right: 50px;
+
+  font-size: 1rem;
+  color: rgb(255 255 255 /40%);
+  min-height: 40px;
+  border: none;
+  background: rgba(0, 0, 0, 0);
   &:focus,
   &:active {
     outline: none;
+  }
+  @media screen and (min-width: ${screenWidth}) {
+    /* position: absolute;
+  right: -150px; */
   }
 `;
 
 const App = () => {
   // initialize the city
   const [city, setCity] = useState("Adelaide");
-  const [location, setLocation] = useState("Adelaide");
+  const [location, setLocation] = useState("");
   const [data, setData] = useState();
   const [currentLongitude, setCurrentLongitude] = useState();
   const [currentLatitude, setCurrentLatitude] = useState();
   const [units, setUnits] = useState("metric");
   const [loading, setLoading] = useState(true);
-
-
 
   // initialization : fetch current location city name
   useEffect(() => {
@@ -129,7 +153,7 @@ const App = () => {
           <Switch color="default" onChange={switchHandler} />
         </UnitsSwitch>
 
-        <SearchBar>
+        <SearchBarBox>
           <SearchIcon className="fas fa-search" />
           <SearchInput
             type="text"
@@ -137,10 +161,10 @@ const App = () => {
             onKeyPress={searchLocation}
             onChange={searchHandler}
           />
-        </SearchBar>
+        </SearchBarBox>
       </SearchBarContainer>
 
-      <CurrentCity data={data}  units={units} />
+      <CurrentCity data={data} units={units} />
       <Forecast city={city} units={units} />
     </Container>
   );

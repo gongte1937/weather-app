@@ -4,12 +4,20 @@ import getForecast from "../../api/getWeather/getForecast";
 import DailyWeather from "./DailyWeather";
 import { getDay } from "date-fns";
 
+
+const screenWidth = "1024px";
+
 const Layout = styled.div`
   padding: 25px 50px;
   margin-top: 1rem;
   display: flex;
   border-top: 3px solid white;
   color: white;
+  /* flex-direction: column; */
+  overflow-y: auto;
+  /* @media screen and (min-width:${screenWidth}){
+    flex-direction: row;
+  } */
 `;
 
 const Forecast = ({ city,units }) => {

@@ -2,19 +2,29 @@ import React from "react";
 import styled from "styled-components";
 import WeatherIcon from "../../../components/WeatherIcon/WeatherIcon";
 
-const color = 'white'
+const color = "white";
+
+const screenWidth = "1024px";
 
 const Wrapper = styled.div`
-
-  padding: 60px 90px;
-
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  @media screen and (min-width: ${screenWidth}) {
+    justify-content: center;
+    align-items: center;
+    padding: 60px 90px;
+  }
 `;
 const Name = styled.h1`
   margin: 0;
-  color: ${color};  
+  color: ${color};
   font-size: 2.5rem;
   font-weight: 500;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   /* &:after{
     content: '';
@@ -29,30 +39,38 @@ const Name = styled.h1`
 
 const Visibility = styled.p`
   text-align: center;
-  font-size: 2em;
+  font-size: 1.5em;
   letter-spacing: 5px;
   color: rgb(255 255 255 /80%);
   margin: 0.25rem 0 0 0;
+  @media screen and (min-width:${screenWidth}){
+    font-size: 2em;
+  }
 `;
 const StyledWeatherIcon = styled.div`
-  display: flex;
+display: none;
+  @media screen and (min-width:${screenWidth}){
+    display: flex;
   justify-content: center;
->img{
-  width: 120px;
-  height: 120px;
-}
+  }
+  > img {
+    width: 120px;
+    height: 120px;
+  }
+`;
 
-`
-
-const CityName = ({data}) => {
-    if(!data){
-        return "Loading..."
-    }
+const CityName = ({ data }) => {
+  if (!data) {
+    return "Loading...";
+  }
   return (
     <Wrapper>
       <Name>{data.name}</Name>
       <StyledWeatherIcon>
-      <WeatherIcon value= {data.weather[0].icon} description ={data.weather[0].description}/>
+        <WeatherIcon
+          value={data.weather[0].icon}
+          description={data.weather[0].description}
+        />
       </StyledWeatherIcon>
 
       <Visibility>{data.weather[0].main}</Visibility>

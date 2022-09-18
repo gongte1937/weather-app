@@ -20,7 +20,7 @@ npm start
 
 ## Develop process
 
-The weather-app is developed by folowing process
+The weather-app is developed by following process
 
 1. Design the component structure from a mockup
 
@@ -41,7 +41,7 @@ The weather-app is developed by folowing process
 
 ## Tool used
 
-This app is developed using the folowing techologies besides React:
+This app is developed using the following techologies besides React:
 
 - styled-components
 - axios

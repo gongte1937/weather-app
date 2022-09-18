@@ -15,9 +15,9 @@ const Layout = styled.div`
   color: white;
   /* flex-direction: column; */
   overflow-y: auto;
-  /* @media screen and (min-width:${screenWidth}){
-    flex-direction: row;
-  } */
+  @media screen and (max-width:${screenWidth}){
+    
+  }
 `;
 
 const Forecast = ({ city,units }) => {
@@ -25,6 +25,8 @@ const Forecast = ({ city,units }) => {
   const [Loading, setLoading] = useState(true);
   const Days = ["SUN", "MON", "TUS", "WED", "THU", "Fri", "SAT"];
 
+
+  // get forcast data
   useEffect(() => {
     getForecast(city,units)
       .then((res) => {
@@ -37,13 +39,15 @@ const Forecast = ({ city,units }) => {
   if (Loading) {
     return <div>Loading...</div>;
   }
-  const forcast = data.data.list.filter(({ dt_txt }) =>
+
+  // get the 5 days data with with time 00:00:00
+  const forecast = data.data.list.filter(({ dt_txt }) =>
     dt_txt.endsWith("00:00:00")
   );
   // console.log("forecast", forcast);
   return (
     <Layout>
-      {forcast.map(({ dt, main: { temp }, weather }) => {
+      {forecast.map(({ dt, main: { temp }, weather }) => {
         // use getDay method from date-fns to calculate the day
         return (
           <DailyWeather

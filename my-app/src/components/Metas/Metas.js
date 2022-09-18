@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import Meta from "./components/Meta";
 
+const screenWidth = "1024px";
+
+
 const Container = styled.div`
   margin-top: 48px;
   display: flex;
   justify-content: space-between;
   font-size: 1.5rem;
   font-weight: 500;
+  @media screen and (max-width: ${screenWidth}) {
+    margin-top: 20px;
+  }
 `;
 const Divider = styled.div`
   width: 2px;

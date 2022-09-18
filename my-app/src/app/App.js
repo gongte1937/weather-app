@@ -56,7 +56,7 @@ const SearchBarBox = styled.div`
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.2);
   @media screen and (max-width: ${screenWidth}) {
-    width: 40%;
+    width: 250px;
 
   }
 `;
@@ -66,6 +66,9 @@ const SearchIcon = styled.button`
   background: rgba(255, 255, 255, 0);
   border: none;
   outline: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const SearchInput = styled.input`
   /* width: 100%; */
@@ -81,14 +84,10 @@ const SearchInput = styled.input`
   &:active {
     outline: none;
   }
-  @media screen and (min-width: ${screenWidth}) {
-    /* position: absolute;
-  right: -150px; */
-  }
 `;
 
 const App = () => {
-  // initialize the city
+  // initialize the city with default Adelaide
   const [city, setCity] = useState("Adelaide");
   const [location, setLocation] = useState("");
   const [data, setData] = useState();
@@ -154,7 +153,7 @@ const App = () => {
         </UnitsSwitch>
 
         <SearchBarBox>
-          <SearchIcon className="fas fa-search" />
+          <SearchIcon className="fas fa-search" onClick={(e)=>setCity(location)} />
           <SearchInput
             type="text"
             placeholder="Enter a city"

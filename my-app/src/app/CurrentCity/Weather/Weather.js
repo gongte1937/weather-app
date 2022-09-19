@@ -24,8 +24,6 @@ const HeadingTemperature = styled.p`
 `;
 
 const Weather = ({ data, units }) => {
-  // fetch wether data from api
-  console.log("speed:", data);
   return (
     <Wrapper>
       <HeadingTemperature>

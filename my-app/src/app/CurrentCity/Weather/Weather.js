@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   width: 250px;
   @media screen and (min-width: ${screenWidth}) {
-    padding: 50px 0px 60px 150px;
+    padding: 60px 0px 60px 150px;
   }
 `;
 
